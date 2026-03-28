@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Vigenere Cipher</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="header">Vigenere Cipher</div>
+
+<div class="container">
+
+    <!-- LEFT SIDE -->
+    <div class="card">
+        <input type="text" id="text" placeholder="Enter text">
+        <input type="text" id="key" placeholder="Enter key">
+
+        <button onclick="encrypt()">Encrypt</button>
+        <button onclick="decrypt()">Decrypt</button>
+    </div>
+
+    <!-- RIGHT SIDE -->
+    <div class="card">
+        <h3>Output</h3>
+        <div id="result"></div>
+    </div>
+
+</div>
+
+<script src="js/vigenere.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Diffie Hellman</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="header">Diffie Hellman Key Exchange</div>
+
+<div class="container">
+
+    <div class="card">
+        <input type="number" id="q" placeholder="Enter prime number (q)">
+        <input type="number" id="g" placeholder="Enter primitive root (g)">
+        <input type="number" id="a" placeholder="Private key A">
+        <input type="number" id="b" placeholder="Private key B">
+
+        <button onclick="calculate()">Generate Key</button>
+    </div>
+
+    <div class="card">
+        <h3>Output</h3>
+        <div id="result"></div>
+    </div>
+
+</div>
+
+<script src="js/diffie.js"></script>
+
+</body>
+</html>
