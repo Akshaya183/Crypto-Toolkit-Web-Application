@@ -1,77 +1,77 @@
-function generateKey(text, key){
-    key = key.toUpperCase();
-    let newKey = "";
-    for(let i=0, j=0; i<text.length; i++){
-        if(text[i].match(/[A-Z]/)){
-            newKey += key[j % key.length];
-            j++;
-        } else {
-            newKey += text[i];
+// Check if number is prime
+function isPrime(n){
+    if(n <= 1) return false;
+
+    for(let i = 2; i <= Math.sqrt(n); i++){
+        if(n % i === 0){
+            return false;
         }
     }
-    return newKey;
+    return true;
 }
 
-function encrypt(){
-    let text = document.getElementById("text").value.toUpperCase();
-    let key = document.getElementById("key").value.toUpperCase();
 
-    if(text === "" || key === ""){
-        alert("Please enter text and key!");
+// Modular exponentiation
+function power(base, exp, mod){
+    let result = 1;
+
+    for(let i = 0; i < exp; i++){
+        result = (result * base) % mod;
+    }
+
+    return result;
+}
+
+
+// Main function
+function calculate(){
+    let p = parseInt(document.getElementById("p").value);
+    let g = parseInt(document.getElementById("g").value);
+    let a = parseInt(document.getElementById("a").value);
+    let b = parseInt(document.getElementById("b").value);
+
+    // Empty input check
+    if(isNaN(p) || isNaN(g) || isNaN(a) || isNaN(b)){
+        alert("Please enter all values!");
         return;
     }
 
-    let result = "";
-    let j = 0;
-
-    for(let i=0; i<text.length; i++){
-        let char = text[i];
-
-        if(char >= 'A' && char <= 'Z'){
-            let k = key[j % key.length];
-
-            let encryptedChar = String.fromCharCode(
-                ((char.charCodeAt(0) - 65 + (k.charCodeAt(0) - 65)) % 26) + 65
-            );
-
-            result += encryptedChar;
-            j++;
-        } else {
-            result += char; // keep spaces
-        }
-    }
-
-    document.getElementById("result").innerHTML = "Encrypted: " + result;
-}
-
-function decrypt(){
-    let text = document.getElementById("text").value.toUpperCase();
-    let key = document.getElementById("key").value.toUpperCase();
-
-    if(text === "" || key === ""){
-        alert("Please enter text and key!");
+    // Positive value check
+    if(p <= 1 || g <= 0 || a <= 0 || b <= 0){
+        alert("Please enter valid positive values!");
         return;
     }
 
-    let result = "";
-    let j = 0;
-
-    for(let i=0; i<text.length; i++){
-        let char = text[i];
-
-        if(char >= 'A' && char <= 'Z'){
-            let k = key[j % key.length];
-
-            let decryptedChar = String.fromCharCode(
-                ((char.charCodeAt(0) - 65 - (k.charCodeAt(0) - 65) + 26) % 26) + 65
-            );
-
-            result += decryptedChar;
-            j++;
-        } else {
-            result += char;
-        }
+    // Prime check
+    if(!isPrime(p)){
+        alert("Please enter a valid prime number for p!");
+        return;
     }
 
-    document.getElementById("result").innerHTML = "Decrypted: " + result;
+    // g < p check
+    if(g >= p){
+        alert("Primitive root (g) must be less than p!");
+        return;
+    }
+
+    // a, b < p check
+    if(a >= p || b >= p){
+        alert("Private keys (a and b) must be less than p!");
+        return;
+    }
+
+    // Step 1: Public keys
+    let A = power(g, a, p);
+    let B = power(g, b, p);
+
+    // Step 2: Shared keys
+    let key1 = power(B, a, p);
+    let key2 = power(A, b, p);
+
+    // Output
+    document.getElementById("result").innerHTML =
+        "<b>Public Key A:</b> " + A + "<br>" +
+        "<b>Public Key B:</b> " + B + "<br><br>" +
+        "<b>Shared Key (A):</b> " + key1 + "<br>" +
+        "<b>Shared Key (B):</b> " + key2;
 }
